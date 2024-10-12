@@ -94,6 +94,10 @@ class SecondActivity : AppCompatActivity() {
             clearListView()
         }
 
+        binding.secondActivityExitButtonBTN.setOnClickListener {
+            this.finishAffinity()
+        }
+
     }
 
     private fun clearListView() {
