@@ -1,8 +1,8 @@
 package com.example.sqllitedbhw
 
-class Person (
+class Product (
     val name: String,
-    val phone: String,
-    val role: String?
+    val weight: Double,
+    val price: Int
 ) {
 }

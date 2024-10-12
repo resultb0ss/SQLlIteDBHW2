@@ -1,5 +1,6 @@
 package com.example.sqllitedbhw
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.sqllitedbhw.databinding.ItemListViewBinding
 
-class ListAdapter(context: Context, persons: MutableList<Person>) :
-    ArrayAdapter<Person>(context, R.layout.item_list_view, persons) {
+class ListAdapter(context: Context, products: MutableList<Product>) :
+    ArrayAdapter<Product>(context, R.layout.item_list_view, products) {
 
         private lateinit var binding: ItemListViewBinding
 
+    @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val person= getItem(position)
@@ -22,9 +24,9 @@ class ListAdapter(context: Context, persons: MutableList<Person>) :
             ItemListViewBinding.bind(convertView)
         }
 
-        binding.itemListViewNameTV.text = person?.name
-        binding.itemListViewPhoneTV.text = person?.phone
-        binding.itemListViewRoleTV.text = person?.role
+        binding.itemListViewNameProductTV.text = person?.name
+        binding.itemListViewWeightTV.text = person?.weight.toString()
+        binding.itemListViewPriceTV.text = "${person?.price.toString()} руб."
 
         return binding.root
     }

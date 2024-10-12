@@ -2,7 +2,6 @@ package com.example.sqllitedbhw
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sqllitedbhw.databinding.ActivitySecondBinding
@@ -10,15 +9,8 @@ import com.example.sqllitedbhw.databinding.ActivitySecondBinding
 class SecondActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySecondBinding
-    private var role = mutableListOf(
-        "Не выбрано",
-        "Крановщик",
-        "Строитель",
-        "Бригадир",
-        "Грузчик",
-        "Разнорабочий"
-    )
-    private var persons: MutableList<Person> = mutableListOf()
+
+    private var products: MutableList<Product> = mutableListOf()
     private var listViewAdapter: ListAdapter? = null
     private val db = DBHelper(this, null)
 
@@ -29,30 +21,47 @@ class SecondActivity : AppCompatActivity() {
         binding = ActivitySecondBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val spinnerAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            role
-        )
 
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
-        binding.secondActivityRoleSpinner.adapter = spinnerAdapter
-
-        listViewAdapter = ListAdapter(this, persons)
+        listViewAdapter = ListAdapter(this, products)
         binding.secondActivityMainListViewLV.adapter = listViewAdapter
 
         binding.secondActivitySaveButtonBTN.setOnClickListener{
 
-            if (binding.secondActivityNameEditTextET.text.isNotEmpty()
-                && binding.secondActivityPhoneEditTextET.text.isNotEmpty()) {
-                val name = binding.secondActivityNameEditTextET.text.toString()
-                val phone = binding.secondActivityPhoneEditTextET.text.toString()
-                val role = binding.secondActivityRoleSpinner.selectedItem.toString()
+            products.clear()
+            if (binding.secondActivityProductEditTextET.text.isNotEmpty()
+                && binding.secondActivityWeightEditTextET.text.isNotEmpty()
+                && binding.secondActivityPriceEditTextET.text.isNotEmpty()) {
 
-                db.addPerson(name,role,phone)
+                val name = binding.secondActivityProductEditTextET.text.toString()
+                val weight = binding.secondActivityWeightEditTextET.text.toString().toDouble()
+                val price = binding.secondActivityPriceEditTextET.text.toString().toInt()
 
-                binding.secondActivityNameEditTextET.text.clear()
-                binding.secondActivityPhoneEditTextET.text.clear()
+                db.addPerson(name,weight,price)
+
+                val cursor = db.getInfo()
+                if (cursor != null && cursor.moveToFirst()) {
+                    cursor.moveToFirst()
+                    val nameFromDB = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME))
+                    val weightFromDB = cursor.getDouble(cursor.getColumnIndex(DBHelper.KEY_WEIGHT))
+                    val priceFromDB = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_PRICE))
+                    val product = Product(nameFromDB,weightFromDB,priceFromDB)
+                    products.add(product)
+                }
+                while (cursor!!.moveToNext()){
+                    val nameFromDB = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME))
+                    val weightFromDB = cursor.getDouble(cursor.getColumnIndex(DBHelper.KEY_WEIGHT))
+                    val priceFromDB = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_PRICE))
+                    val product = Product(nameFromDB,weightFromDB,priceFromDB)
+                    products.add(product)
+                }
+                cursor.close()
+
+                listViewAdapter = ListAdapter(this, products)
+                binding.secondActivityMainListViewLV.adapter = listViewAdapter
+                listViewAdapter!!.notifyDataSetChanged()
+
+                clearFields()
+
             } else {
                 Toast.makeText(this, "Заполните необходимые поля",
                     Toast.LENGTH_SHORT).show()
@@ -60,38 +69,14 @@ class SecondActivity : AppCompatActivity() {
 
         }
 
-        binding.secondActivityGetButtonBTN.setOnClickListener{
-
-            clearListView()
-
-
-            val cursor = db.getInfo()
-            if (cursor != null && cursor.moveToFirst()) {
-                cursor.moveToFirst()
-                val name = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME))
-                val phone = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_PHONE))
-                val role = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_ROLE))
-                val person = Person(name,phone,role)
-                persons.add(person)
-            }
-            while (cursor!!.moveToNext()){
-                val name = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME))
-                val phone = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_PHONE))
-                val role = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_ROLE))
-                val person = Person(name,phone,role)
-                persons.add(person)
-            }
-            cursor.close()
-
-            listViewAdapter = ListAdapter(this, persons)
-            binding.secondActivityMainListViewLV.adapter = listViewAdapter
-            listViewAdapter!!.notifyDataSetChanged()
-
-        }
 
         binding.secondActivityRemoveButtonBTN.setOnClickListener{
             db.removeAll()
-            clearListView()
+            clearFields()
+            products.clear()
+            listViewAdapter = ListAdapter(this, products)
+            binding.secondActivityMainListViewLV.adapter = listViewAdapter
+            listViewAdapter!!.notifyDataSetChanged()
         }
 
         binding.secondActivityExitButtonBTN.setOnClickListener {
@@ -100,12 +85,11 @@ class SecondActivity : AppCompatActivity() {
 
     }
 
-    private fun clearListView() {
-        persons.clear()
-        binding.secondActivityNameEditTextET.text.clear()
-        binding.secondActivityPhoneEditTextET.text.clear()
-        listViewAdapter = ListAdapter(this, persons)
-        binding.secondActivityMainListViewLV.adapter = listViewAdapter
-        listViewAdapter!!.notifyDataSetChanged()
+    private fun clearFields() {
+        binding.secondActivityProductEditTextET.text.clear()
+        binding.secondActivityWeightEditTextET.text.clear()
+        binding.secondActivityPriceEditTextET.text.clear()
     }
+
+
 }

@@ -12,10 +12,10 @@
         android:paddingBottom="8dp">
 
         <TextView
-            android:id="@+id/itemListViewNameTV"
+            android:id="@+id/itemListViewNameProductTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Имя"
+            android:text="Бананы"
             android:textSize="20dp"
             android:textStyle="bold"
 
@@ -27,10 +27,10 @@
             app:layout_constraintVertical_bias="0.386" />
 
         <TextView
-            android:id="@+id/itemListViewPhoneTV"
+            android:id="@+id/itemListViewWeightTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+79169479222"
+            android:text="30 грамм"
             android:textSize="20dp"
             android:textStyle="bold"
 
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.021"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/itemListViewNameTV"
+            app:layout_constraintTop_toBottomOf="@id/itemListViewNameProductTV"
             app:layout_constraintVertical_bias="0.0" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -51,18 +51,18 @@
         </androidx.constraintlayout.widget.Guideline>
 
         <TextView
-            android:id="@+id/itemListViewRoleTV"
+            android:id="@+id/itemListViewPriceTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Должность"
+            android:text="1000 руб"
             android:textSize="18dp"
             android:textStyle="normal"
 
-            app:layout_constraintBottom_toBottomOf="@+id/itemListViewPhoneTV"
+            app:layout_constraintBottom_toBottomOf="@+id/itemListViewWeightTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/mainGuildline"
-            app:layout_constraintTop_toTopOf="@+id/itemListViewNameTV"
+            app:layout_constraintTop_toTopOf="@+id/itemListViewNameProductTV"
             app:layout_constraintVertical_bias="0.466" />
 
 

@@ -49,29 +49,30 @@
 
 
         <EditText
-            android:id="@+id/secondActivityNameEditTextET"
+            android:id="@+id/secondActivityProductEditTextET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Имя"
+            android:hint="Название"
             android:includeFontPadding="false"
             android:layout_marginBottom="6dp"/>
 
 
         <EditText
-            android:id="@+id/secondActivityPhoneEditTextET"
+            android:id="@+id/secondActivityWeightEditTextET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Телефон"
-            android:inputType="number"
+            android:hint="Вес, кг"
             android:includeFontPadding="false"
             android:layout_marginBottom="6dp"/>
 
-        <Spinner
-            android:id="@+id/secondActivityRoleSpinner"
+        <EditText
+            android:id="@+id/secondActivityPriceEditTextET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Должность"
-            android:layout_marginBottom="10dp"/>
+            android:hint="Цена руб."
+            android:inputType="number"
+            android:includeFontPadding="false"
+            android:layout_marginBottom="6dp"/>
 
         <LinearLayout
         android:layout_width="match_parent"
@@ -89,16 +90,7 @@
                 android:layout_margin="4dp"
                 android:text="Сохранить"/>
 
-            <Button
-                android:id="@+id/secondActivityGetButtonBTN"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="13dp"
-                android:layout_weight="1"
-                android:text="Получить данные"/>
+
 
             <Button
                 android:id="@+id/secondActivityRemoveButtonBTN"
