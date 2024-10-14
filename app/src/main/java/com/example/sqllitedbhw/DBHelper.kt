@@ -43,7 +43,7 @@ class DBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?):
         p0.execSQL(query)
     }
 
-    fun addPerson(name: String, weight: Double, price: Int){
+    fun addProduct(name: String, weight: Double, price: Int){
         val values = ContentValues()
         values.put(KEY_NAME,name)
         values.put(KEY_WEIGHT, weight)

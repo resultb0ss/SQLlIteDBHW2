@@ -36,7 +36,7 @@ class SecondActivity : AppCompatActivity() {
                 val weight = binding.secondActivityWeightEditTextET.text.toString().toDouble()
                 val price = binding.secondActivityPriceEditTextET.text.toString().toInt()
 
-                db.addPerson(name,weight,price)
+                db.addProduct(name,weight,price)
                 products = db.getInfo()
 
                 listViewAdapter = ListAdapter(this, products)
