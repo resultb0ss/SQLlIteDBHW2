@@ -1,9 +1,11 @@
 package com.example.sqllitedbhw
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 
 class DBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?):
@@ -53,11 +55,35 @@ class DBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?):
     }
 
 
-    fun getInfo(): Cursor? {
+    @SuppressLint("Range")
+    fun getInfo(): MutableList<Product> {
+        val productList: MutableList<Product> = mutableListOf()
+        val selectQuery = "SELECT * FROM $TABLE_NAME"
         val db = this.readableDatabase
-        return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery(selectQuery, null)
+        } catch (e: SQLiteException) {
+            db.execSQL(selectQuery)
+            return productList
+        }
+        var nameFromDB: String
+        var weightFromDB: Double
+        var priceFromDB: Int
 
+        if (cursor.moveToFirst()){
+            do {
+                nameFromDB = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME))
+                weightFromDB = cursor.getDouble(cursor.getColumnIndex(DBHelper.KEY_WEIGHT))
+                priceFromDB = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_PRICE))
+                val product = Product(nameFromDB,weightFromDB,priceFromDB)
+                productList.add(product)
+            } while (cursor.moveToNext())
+        }
+
+        return productList
     }
+
 
     fun removeAll(){
         val db = this.writableDatabase

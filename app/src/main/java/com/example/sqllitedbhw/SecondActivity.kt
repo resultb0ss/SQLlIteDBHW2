@@ -37,24 +37,7 @@ class SecondActivity : AppCompatActivity() {
                 val price = binding.secondActivityPriceEditTextET.text.toString().toInt()
 
                 db.addPerson(name,weight,price)
-
-                val cursor = db.getInfo()
-                if (cursor != null && cursor.moveToFirst()) {
-                    cursor.moveToFirst()
-                    val nameFromDB = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME))
-                    val weightFromDB = cursor.getDouble(cursor.getColumnIndex(DBHelper.KEY_WEIGHT))
-                    val priceFromDB = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_PRICE))
-                    val product = Product(nameFromDB,weightFromDB,priceFromDB)
-                    products.add(product)
-                }
-                while (cursor!!.moveToNext()){
-                    val nameFromDB = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME))
-                    val weightFromDB = cursor.getDouble(cursor.getColumnIndex(DBHelper.KEY_WEIGHT))
-                    val priceFromDB = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_PRICE))
-                    val product = Product(nameFromDB,weightFromDB,priceFromDB)
-                    products.add(product)
-                }
-                cursor.close()
+                products = db.getInfo()
 
                 listViewAdapter = ListAdapter(this, products)
                 binding.secondActivityMainListViewLV.adapter = listViewAdapter
